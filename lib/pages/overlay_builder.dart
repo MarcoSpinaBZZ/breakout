@@ -12,7 +12,7 @@ class OverlayBuilder {
       },
       child: const Center(
         child: Text(
-          'Tap Paddle to Begin',
+          'Tap Text to Begin',
           style: TextStyle(
             color: Colors.white,
             fontSize: 24,
@@ -25,7 +25,7 @@ class OverlayBuilder {
   static Widget postGame(BuildContext context, Forge2dGameWorld game) {
     assert(game.gameState == GameState.lost || game.gameState == GameState.won);
 
-    final message = game.gameState == GameState.won ? 'Winner!' : 'Game Over';
+    final message = game.gameState == GameState.won ? 'You win!' : 'Game Over';
     return PostGameOverlay(message: message, game: game);
   }
 }
@@ -37,7 +37,7 @@ class PreGameOverlay extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Center(
       child: Text(
-        'Tap Paddle to Begin',
+        'Tap Text to Begin',
         style: TextStyle(
           color: Colors.white,
           fontSize: 24,
@@ -81,7 +81,7 @@ class PostGameOverlay extends StatelessWidget {
     return OutlinedButton.icon(
       style: OutlinedButton.styleFrom(
         side: const BorderSide(
-          color: Colors.blue,
+          color: Colors.white,
         ),
       ),
       onPressed: () => game.resetGame(),
