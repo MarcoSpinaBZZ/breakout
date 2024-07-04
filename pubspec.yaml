@@ -19,6 +19,12 @@ dependencies:
   audioplayers: ^6.0.0
   sensors: ^2.0.3
   sensors_plus: ^5.0.1
+  flutter_launcher_icons: ^0.13.1
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/breakout_icon.png"
 
 dev_dependencies:
   flutter_test:
