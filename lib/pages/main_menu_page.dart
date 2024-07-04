@@ -14,10 +14,10 @@ class MainMenu extends StatefulWidget {
 }
 
 class _MainMenuState extends State<MainMenu> {
-  Color black = Colors.black; // Define the color 'black'
+  Color black = Colors.black;
   late AudioPlayer _audioPlayer;
   late AudioPlayer _buttonPlayer;
-//test
+
   @override
   void initState() {
     super.initState();
@@ -121,7 +121,7 @@ class _MainMenuState extends State<MainMenu> {
             ElevatedButton(
               onPressed: () {
                 _playButtonSound();
-                _stopBackgroundMusic(); // Stop background music before navigating
+                _stopBackgroundMusic();
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const MainGamePage()),
@@ -133,7 +133,7 @@ class _MainMenuState extends State<MainMenu> {
             ElevatedButton(
               onPressed: () {
                 _playButtonSound();
-                _stopBackgroundMusic(); // Stop background music before navigating
+                _stopBackgroundMusic();
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const MainSettings()),
@@ -144,7 +144,7 @@ class _MainMenuState extends State<MainMenu> {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                SystemChannels.platform.invokeMethod('SystemNavigator.pop'); // Close the app and go to home screen
+                SystemChannels.platform.invokeMethod('SystemNavigator.pop');
               },
               child: const Text('Quit'),
             ),

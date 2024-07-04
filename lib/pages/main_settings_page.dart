@@ -1,8 +1,8 @@
-import 'package:breakout/providers/volume_provider.dart';
-import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
-import 'package:provider/provider.dart';
 import 'package:breakout/pages/main_menu_page.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:breakout/providers/volume_provider.dart';
 
 class MainSettings extends StatefulWidget {
   const MainSettings({Key? key}) : super(key: key);
@@ -53,18 +53,22 @@ class _MainSettingsState extends State<MainSettings> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         actions: [
-          IconButton(
-            icon: const Icon(Icons.home),
-            color: Colors.white,
-            iconSize: 30,
-            onPressed: () {
-              _stopBackgroundMusic();
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => const MainMenu()),
-                (Route<dynamic> route) => false,
-              );
-            },
+          Positioned(
+            top: 42,
+            right: 25,
+            child: IconButton(
+              icon: const Icon(Icons.home),
+              color: Colors.white,
+              iconSize: 40,
+              onPressed: () {
+                _stopBackgroundMusic();
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => const MainMenu()),
+                  (Route<dynamic> route) => false,
+                );
+              },
+            ),
           ),
         ],
       ),
@@ -78,7 +82,7 @@ class _MainSettingsState extends State<MainSettings> {
               onChanged: (value) {
                 context.read<VolumeProvider>().setBackgroundMusicVolume(value);
                 _settingsMusicPlayer.setVolume(value);
-                _playSliderSound(); // Play sound effect
+                _playSliderSound();
               },
             ),
             const SizedBox(height: 40),
@@ -88,7 +92,7 @@ class _MainSettingsState extends State<MainSettings> {
               onChanged: (value) {
                 context.read<VolumeProvider>().setSoundEffectVolume(value);
                 _sliderSoundPlayer.setVolume(value);
-                _playSliderSound(); // Play sound effect
+                _playSliderSound();
               },
             ),
           ],
@@ -127,7 +131,7 @@ class CustomSliderThumbIcon extends SliderComponentShape {
 
   @override
   Size getPreferredSize(bool isEnabled, bool isDiscrete) {
-    return Size(40.0, 40.0); // Customize the size as needed
+    return Size(40.0, 40.0);
   }
 
   @override
@@ -147,9 +151,9 @@ class CustomSliderThumbIcon extends SliderComponentShape {
   }) {
     final Canvas canvas = context.canvas;
     final Paint paint = Paint()..color = Colors.white;
-    final double iconSize = 24.0; // Customize the icon size as needed
+    final double iconSize = 24.0;
 
-    canvas.drawCircle(center, 20.0, paint); // Draw the thumb circle
+    canvas.drawCircle(center, 20.0, paint);
     TextPainter textPainter = TextPainter(
       text: TextSpan(
         text: String.fromCharCode(icon.codePoint),
@@ -157,7 +161,7 @@ class CustomSliderThumbIcon extends SliderComponentShape {
           fontSize: iconSize,
           fontFamily: icon.fontFamily,
           package: icon.fontPackage,
-          color: Colors.black, // Color of the icon
+          color: Colors.black,
         ),
       ),
       textDirection: textDirection,

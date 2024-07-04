@@ -1,8 +1,11 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:breakout/pages/main_menu_page.dart';
-import 'package:breakout/providers/volume_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flame/game.dart' as flame;
 import 'package:provider/provider.dart';
+import '../forge2d_game_world.dart';
+import 'package:breakout/pages/overlay_builder.dart';
+import 'package:breakout/providers/volume_provider.dart';
 
 class MainGamePage extends StatefulWidget {
   const MainGamePage({Key? key}) : super(key: key);
@@ -14,11 +17,13 @@ class MainGamePage extends StatefulWidget {
 class MainGameState extends State<MainGamePage> {
   final rwGreen = const Color.fromRGBO(21, 132, 67, 1);
   late AudioPlayer _audioPlayer;
+  late Forge2dGameWorld _forge2dGameWorld;
 
   @override
   void initState() {
     super.initState();
     _audioPlayer = AudioPlayer();
+    _forge2dGameWorld = Forge2dGameWorld();
     _playBackgroundMusic();
   }
 
@@ -34,8 +39,6 @@ class MainGameState extends State<MainGamePage> {
     super.dispose();
   }
 
-  // TODO: Create instance of Forge2dGameWorld here
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,24 +51,22 @@ class MainGameState extends State<MainGamePage> {
               horizontal: 30,
               vertical: 40,
             ),
-            // TODO: Replace Center widget with GameWidget
-            child: const Center(
-              child: Text(
-                'Flame Game World Goes Here!',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                ),
-              ),
+            child: flame.GameWidget<Forge2dGameWorld>(
+              game: _forge2dGameWorld,
+              overlayBuilderMap: {
+                'PreGame': (context, game) => OverlayBuilder.preGame(context, game),
+                'PostGame': (context, game) => OverlayBuilder.postGame(context, game),
+              },
+              initialActiveOverlays: const ['PreGame'],
             ),
           ),
           Positioned(
-            top: 20,
-            right: 20,
+            top: 42,
+            right: 25,
             child: IconButton(
               icon: const Icon(Icons.home),
               color: Colors.white,
-              iconSize: 30,
+              iconSize: 40,
               onPressed: () {
                 Navigator.pushAndRemoveUntil(
                   context,
