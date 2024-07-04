@@ -18,11 +18,11 @@ enum GameState {
 class Forge2dGameWorld extends Forge2DGame {
   Forge2dGameWorld() : super(gravity: Vector2.zero(), zoom: 20);
 
-  late final Arena _arena;
-  late final Ball _ball;
-  late final Paddle _paddle;
-  late final DeadZone _deadZone;
-  late final BrickWall _brickWall;
+  late Arena _arena;
+  late Ball _ball;
+  late Paddle _paddle;
+  late DeadZone _deadZone;
+  late BrickWall _brickWall;
 
   GameState gameState = GameState.initializing;
 
@@ -44,7 +44,9 @@ class Forge2dGameWorld extends Forge2DGame {
   Future<void> resetGame() async {
     gameState = GameState.initializing;
 
-    _ball.reset();
+    final ballPosition = Vector2(size.x / 2.0, size.y / 2.0 + 10.0);
+    _ball.reset(ballPosition); // Provide the new position to reset the ball
+
     _paddle.reset();
     await _brickWall.reset();
 
@@ -57,7 +59,7 @@ class Forge2dGameWorld extends Forge2DGame {
   }
 
   void startGame() {
-    _ball.body.applyLinearImpulse(Vector2(-10.0, -10.0));
+    _ball.body.applyLinearImpulse(Vector2(50000.0, 50000.0)); // Higher impulse for faster start
     gameState = GameState.running;
   }
 
@@ -69,7 +71,7 @@ class Forge2dGameWorld extends Forge2DGame {
 
     _brickWall = BrickWall(
       position: brickWallPosition,
-      rows: 8,
+      rows: 10,
       columns: 6,
     );
     await add(_brickWall);
@@ -86,7 +88,7 @@ class Forge2dGameWorld extends Forge2DGame {
     );
     await add(_deadZone);
 
-    const paddleSize = Size(4.0, 0.8);
+    const paddleSize = Size(564.0, 6.4); // Larger paddle size
     final paddlePosition = Vector2(
       size.x / 2.0,
       size.y - deadZoneSize.height - paddleSize.height / 2.0,
@@ -102,8 +104,9 @@ class Forge2dGameWorld extends Forge2DGame {
     final ballPosition = Vector2(size.x / 2.0, size.y / 2.0 + 10.0);
 
     _ball = Ball(
-      radius: 0.5,
+      radius: 5.0, // Larger radius for the ball
       position: ballPosition,
+      initialVelocity: Vector2(0.0, 0.0), // Initial velocity is set later
     );
     await add(_ball);
 
