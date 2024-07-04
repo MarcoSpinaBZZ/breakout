@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flame/events.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
@@ -92,11 +91,17 @@ class Paddle extends BodyComponent<Forge2dGameWorld> with DragCallbacks, HasGame
   void _handleGyroscopeEvent(GyroscopeEvent event) {
     // Use the gyroscope event to update the paddle's position.
     // You might need to adjust the sensitivity factor.
-    const sensitivity = 10.0;
+    const sensitivity = 40.0;
     final deltaX = event.y * sensitivity;
 
-    // Apply the delta to the paddle's position.
-    body.applyLinearImpulse(Vector2(deltaX, 0));
+    final newPosition = body.position + Vector2(deltaX, 0);
+
+    // Clamp the position within the screen bounds.
+    final clampedX = newPosition.x.clamp(size.width / 2, gameRef.size.x - size.width / 2);
+    final clampedPosition = Vector2(clampedX, body.position.y);
+
+    // Set the new position.
+    body.setTransform(clampedPosition, 0.0);
   }
 
   @override
@@ -105,7 +110,7 @@ class Paddle extends BodyComponent<Forge2dGameWorld> with DragCallbacks, HasGame
     if (_mouseJoint != null) {
       return;
     }
-    dragStartPosition = info.localPosition; // todo check
+    dragStartPosition = info.localPosition;
     _setupDragControls();
 
     // Don't continue passing the event.
@@ -138,7 +143,6 @@ class Paddle extends BodyComponent<Forge2dGameWorld> with DragCallbacks, HasGame
 
     // Don't continue passing the event.
     super.onDragCancel(event);
-    
   }
 
   void _setupDragControls() {
@@ -154,7 +158,6 @@ class Paddle extends BodyComponent<Forge2dGameWorld> with DragCallbacks, HasGame
     world.createJoint(_mouseJoint!);
   }
 
-  // Clear the drag position accumulator and remove the mouse joint.
   void _resetDragControls() {
     dragAccumulativePosition = Vector2.zero();
     if (_mouseJoint != null) {
