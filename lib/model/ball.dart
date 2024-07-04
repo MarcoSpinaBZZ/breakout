@@ -6,8 +6,13 @@ import '../forge2d_game_world.dart';
 class Ball extends BodyComponent<Forge2dGameWorld> {
   final Vector2 position;
   final double radius;
+  final Vector2 initialVelocity;
 
-  Ball({required this.position, required this.radius});
+  Ball({
+    required this.position,
+    required this.radius,
+    required this.initialVelocity,
+  });
 
   final _gradient = RadialGradient(
     center: Alignment.topLeft,
@@ -36,13 +41,18 @@ class Ball extends BodyComponent<Forge2dGameWorld> {
       ..density = 1.0;
 
     ball.createFixture(fixtureDef);
+
+    // Apply initial velocity to the body directly
+    ball.setTransform(position, 0); // Set initial position and angle
+    ball.linearVelocity = initialVelocity; // Set initial velocity directly
+
     return ball;
   }
 
-  void reset() {
-    body.setTransform(position, angle);
-    body.angularVelocity = 0.0;
-    body.linearVelocity = Vector2.zero();
+  void reset(Vector2 newPosition) {
+    body.setTransform(newPosition, 0); // Reset position and angle
+    body.linearVelocity = initialVelocity; // Reset velocity to initial
+    body.angularVelocity = 0.0; // Reset angular velocity
   }
 
   @override
