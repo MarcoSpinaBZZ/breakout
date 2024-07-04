@@ -1,6 +1,5 @@
 name: breakout
 description: "A new Flutter project."
-
 publish_to: 'none'
 
 version: 1.0.0+1
@@ -11,7 +10,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
   cupertino_icons: ^1.0.6
   uuid: ^4.4.0
   provider: ^6.1.2
@@ -19,6 +17,8 @@ dependencies:
   forge2d: ^0.13.0
   flame_forge2d: ^0.18.1
   audioplayers: ^6.0.0
+  sensors: ^2.0.3
+  sensors_plus: ^5.0.1
 
 dev_dependencies:
   flutter_test:
