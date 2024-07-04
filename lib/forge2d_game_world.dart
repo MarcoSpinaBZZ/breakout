@@ -88,7 +88,7 @@ class Forge2dGameWorld extends Forge2DGame {
     );
     await add(_deadZone);
 
-    const paddleSize = Size(564.0, 6.4); // Larger paddle size
+    const paddleSize = Size(64.0, 6.4); // Larger paddle size
     final paddlePosition = Vector2(
       size.x / 2.0,
       size.y - deadZoneSize.height - paddleSize.height / 2.0,
