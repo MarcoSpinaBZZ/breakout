@@ -25,13 +25,14 @@ class Ball extends BodyComponent<Forge2dGameWorld> {
     radius: 0.95,
   );
 
+  static const double exponentialSpeedFactor = 1.05; // Factor for exponential speed increase
+
   @override
   Body createBody() {
     final bodyDef = BodyDef()
       ..userData = this
       ..type = BodyType.dynamic
-      ..position = position
-      ..linearDamping = 0.0; // Ensure no linear damping
+      ..position = position;
 
     final ball = world.createBody(bodyDef);
 
@@ -39,13 +40,13 @@ class Ball extends BodyComponent<Forge2dGameWorld> {
 
     final fixtureDef = FixtureDef(shape)
       ..restitution = 1.0
-      ..density = 1.0
-      ..friction = 0.0; // Ensure no friction
+      ..density = 1.0;
 
     ball.createFixture(fixtureDef);
 
-    // Apply initial velocity directly
-    ball.linearVelocity = initialVelocity;
+    // Apply initial velocity to the body directly
+    ball.setTransform(position, 0); // Set initial position and angle
+    ball.linearVelocity = initialVelocity; // Set initial velocity directly
 
     return ball;
   }
@@ -54,6 +55,12 @@ class Ball extends BodyComponent<Forge2dGameWorld> {
     body.setTransform(newPosition, 0); // Reset position and angle
     body.linearVelocity = initialVelocity; // Reset velocity to initial
     body.angularVelocity = 0.0; // Reset angular velocity
+  }
+
+  void increaseSpeedExponentially() {
+    final currentVelocity = body.linearVelocity;
+    final newVelocity = currentVelocity * exponentialSpeedFactor;
+    body.linearVelocity = newVelocity;
   }
 
   @override
@@ -68,5 +75,12 @@ class Ball extends BodyComponent<Forge2dGameWorld> {
       ..style = PaintingStyle.fill;
 
     canvas.drawCircle(circle.position.toOffset(), radius, paint);
+  }
+
+  @override
+  void update(double dt) {
+    super.update(dt);
+    // Optionally increase speed over time
+    increaseSpeedExponentially();
   }
 }

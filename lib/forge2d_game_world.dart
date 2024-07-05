@@ -38,6 +38,9 @@ class Forge2dGameWorld extends Forge2DGame {
     if (gameState == GameState.lost || gameState == GameState.won) {
       pauseEngine();
       overlays.add('PostGame');
+    } else if (gameState == GameState.running) {
+      // Optionally increase ball speed during the game
+      _ball.increaseSpeedExponentially();
     }
   }
 
