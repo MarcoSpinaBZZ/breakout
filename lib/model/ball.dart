@@ -30,7 +30,8 @@ class Ball extends BodyComponent<Forge2dGameWorld> {
     final bodyDef = BodyDef()
       ..userData = this
       ..type = BodyType.dynamic
-      ..position = position;
+      ..position = position
+      ..linearDamping = 0.0; // Ensure no linear damping
 
     final ball = world.createBody(bodyDef);
 
@@ -38,13 +39,13 @@ class Ball extends BodyComponent<Forge2dGameWorld> {
 
     final fixtureDef = FixtureDef(shape)
       ..restitution = 1.0
-      ..density = 1.0;
+      ..density = 1.0
+      ..friction = 0.0; // Ensure no friction
 
     ball.createFixture(fixtureDef);
 
-    // Apply initial velocity to the body directly
-    ball.setTransform(position, 0); // Set initial position and angle
-    ball.linearVelocity = initialVelocity; // Set initial velocity directly
+    // Apply initial velocity directly
+    ball.linearVelocity = initialVelocity;
 
     return ball;
   }
