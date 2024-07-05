@@ -71,8 +71,8 @@ class Forge2dGameWorld extends Forge2DGame {
 
     _brickWall = BrickWall(
       position: brickWallPosition,
-      rows: 10,
-      columns: 6,
+      rows: 5,
+      columns: 4,
     );
     await add(_brickWall);
 
